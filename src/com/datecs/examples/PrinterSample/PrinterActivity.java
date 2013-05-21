@@ -105,12 +105,12 @@ public class PrinterActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.printer);
         
-        findViewById(R.id.print_self_test).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			    printSelfTest(); 				
-			}        	
-        });
+//        findViewById(R.id.print_self_test).setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//			    printSelfTest(); 				
+//			}        	
+//        });
         
         findViewById(R.id.print_text).setOnClickListener(new OnClickListener() {
 			@Override
@@ -119,41 +119,41 @@ public class PrinterActivity extends Activity {
 			}        	
         });
         
-        findViewById(R.id.print_image).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			    printImage();
-			}        	
-        });    
-        
-        findViewById(R.id.print_page).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                printPage();
-            }           
-        });    
-        
-        findViewById(R.id.print_barcode).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			    printBarcode();
-			}        	
-        });   
-                        
-        findViewById(R.id.read_card).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				readMagstripe();									
-			}
-        });
-        
-        findViewById(R.id.read_barcode).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			    // Read barcode waiting 10 seconds
-				readBarcode(10);									
-			}        	
-        });     
+//        findViewById(R.id.print_image).setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//			    printImage();
+//			}        	
+//        });    
+//        
+//        findViewById(R.id.print_page).setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                printPage();
+//            }           
+//        });    
+//        
+//        findViewById(R.id.print_barcode).setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//			    printBarcode();
+//			}        	
+//        });   
+//                        
+//        findViewById(R.id.read_card).setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				readMagstripe();									
+//			}
+//        });
+//        
+//        findViewById(R.id.read_barcode).setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//			    // Read barcode waiting 10 seconds
+//				readBarcode(10);									
+//			}        	
+//        });     
         
         mRestart = true;
         waitForConnection();

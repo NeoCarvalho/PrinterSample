@@ -28,8 +28,7 @@
 	
 	<ScrollView
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		xmlns:android="http://schemas.android.com/apk/res/android">
+		android:layout_height="fill_parent">
 
 		<LinearLayout
 			android:layout_height="wrap_content"
@@ -37,6 +36,15 @@
 			android:orientation="vertical"
 			android:gravity="center_horizontal"
 			android:padding="10dip">
+			<Button
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:textSize="24sp"
+				android:textStyle="bold"
+				android:id="@+id/print_text"
+				android:drawableLeft="@drawable/text"				
+				android:text="@string/title_print_text"/>
+			<!-- 
 			<Button
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
@@ -93,6 +101,7 @@
 				android:id="@+id/read_barcode"
 				android:drawableLeft="@drawable/readbarcode"
 				android:text="@string/title_read_barcode"/>
+			-->
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

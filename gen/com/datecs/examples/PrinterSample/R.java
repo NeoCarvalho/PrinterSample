@@ -41,13 +41,7 @@ public final class R {
         public static final int devices_list=0x7f070003;
         public static final int icon=0x7f070006;
         public static final int name=0x7f070007;
-        public static final int print_barcode=0x7f07000d;
-        public static final int print_image=0x7f07000b;
-        public static final int print_page=0x7f07000c;
-        public static final int print_self_test=0x7f070009;
-        public static final int print_text=0x7f07000a;
-        public static final int read_barcode=0x7f07000f;
-        public static final int read_card=0x7f07000e;
+        public static final int print_text=0x7f070009;
         public static final int scan=0x7f070005;
         public static final int scanLayout=0x7f070004;
         public static final int title_disabled=0x7f070002;
