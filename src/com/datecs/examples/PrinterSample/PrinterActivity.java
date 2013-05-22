@@ -59,12 +59,12 @@ public class PrinterActivity extends Activity {
         
         @Override
         public void onReadCard() {
-            readMagstripe();            
+//            readMagstripe();            
         }
         
         @Override
         public void onReadBarcode() {
-            readBarcode(0);
+//            readBarcode(0);
         }
         
         @Override
@@ -111,14 +111,14 @@ public class PrinterActivity extends Activity {
 //			    printSelfTest(); 				
 //			}        	
 //        });
-        
-        findViewById(R.id.print_text).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				printTextFile();               								
-			}        	
-        });
-        
+//        
+//        findViewById(R.id.print_text).setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				printText();               								
+//			}        	
+//        });
+//        
 //        findViewById(R.id.print_image).setOnClickListener(new OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
@@ -154,6 +154,13 @@ public class PrinterActivity extends Activity {
 //				readBarcode(10);									
 //			}        	
 //        });     
+//        
+//        findViewById(R.id.print_text).setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				printTextFile();               								
+//			}        	
+//        });
         
         mRestart = true;
         waitForConnection();
@@ -283,13 +290,14 @@ public class PrinterActivity extends Activity {
         
         mPrinterInfo = mPrinter.getInformation();
         
-        mHandler.post(new Runnable() {          
-            @Override
-            public void run() {
-                ((ImageView)findViewById(R.id.icon)).setImageResource(R.drawable.icon);
-                ((TextView)findViewById(R.id.name)).setText(mPrinterInfo.getName());
-            }
-        });
+//TODO:        
+//        mHandler.post(new Runnable() {          
+//            @Override
+//            public void run() {
+//                ((ImageView)findViewById(R.id.icon)).setImageResource(R.drawable.icon);
+//                ((TextView)findViewById(R.id.name)).setText(mPrinterInfo.getName());
+//            }
+//        });
     }
     
     public synchronized void waitForConnection() {
@@ -350,6 +358,8 @@ public class PrinterActivity extends Activity {
                 
                 try {
                     initPrinter(in, out);
+//TODO: Inserido para Imprimir
+                    printTextFile();
                 } catch (IOException e) {
                     error(getString(R.string.msg_failed_to_init) + ". " +  e.getMessage(), mRestart);
                     return;
@@ -461,20 +471,6 @@ public class PrinterActivity extends Activity {
         closePrinterServer();
     }
 
-    private void printSelfTest() {        
-        doJob(new Runnable() {           
-            @Override
-            public void run() {
-                try {           
-                    if (DEBUG) Log.d(LOG_TAG, "Print Self Test");
-                    mPrinter.printSelfTest();                       
-                } catch (IOException e) {
-                    error(getString(R.string.msg_failed_to_print_self_test) + ". " + e.getMessage(), mRestart);
-                }
-            }
-        }, R.string.msg_printing_self_test);		
-	}
-
 //TODO: Metodo de Impressão do Arquivo
     private void printTextFile() {
 	    doJob(new Runnable() {           
@@ -517,239 +513,253 @@ public class PrinterActivity extends Activity {
             }
 	    }, R.string.msg_printing_text);
 	}
-	
-	private void printText() {
-	    doJob(new Runnable() {           
-            @Override
-            public void run() {
-        		StringBuffer sb = new StringBuffer();
-        		sb.append("{reset}{center}{w}{h}RECEIPT");
-                sb.append("{br}");
-                sb.append("{br}");
-                sb.append("{reset}1. {b}First item{br}");
-                sb.append("{reset}{right}{h}$0.50 A{br}");
-                sb.append("{reset}2. {u}Second item{br}");
-                sb.append("{reset}{right}{h}$1.00 B{br}");
-                sb.append("{reset}3. {i}Third item{br}");
-                sb.append("{reset}{right}{h}$1.50 C{br}");
-                sb.append("{br}");
-                sb.append("{reset}{right}{w}{h}TOTAL: {/w}$3.00  {br}");            
-                sb.append("{br}");
-                sb.append("{reset}{center}{s}Thank You!{br}");
-                                    
-            	try {   
-            	    if (DEBUG) Log.d(LOG_TAG, "Print Text");
-            		mPrinter.reset();  
-            		mPrinter.printTaggedText(sb.toString());    		
-            		mPrinter.feedPaper(110);            		            		
-            	} catch (IOException e) {
-            	    error(getString(R.string.msg_failed_to_print_text) + ". " + e.getMessage(), mRestart);    		
-            	}
-            }
-	    }, R.string.msg_printing_text);
-	}
-	
-	private void printImage() {
-	    doJob(new Runnable() {           
-            @Override
-            public void run() {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inScaled = false;                
-        		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sample);        		
-        		final int width = bitmap.getWidth();
-        		final int height = bitmap.getHeight();
-        		final int[] argb = new int[width * height];		
-        		bitmap.getPixels(argb, 0, width, 0, 0, width, height);	
-        		bitmap.recycle();
-        				
-        		try {
-        		    if (DEBUG) Log.d(LOG_TAG, "Print Image");
-        		    mPrinter.reset();		     
-            		mPrinter.printImage(argb, width, height, Printer.ALIGN_CENTER, true);
-            		mPrinter.feedPaper(110);		    
-                } catch (IOException e) {
-                    error(getString(R.string.msg_failed_to_print_image) + ". " + e.getMessage(), mRestart);
-                }
-            }
-	    }, R.string.msg_printing_image);
-	}
-	
-	private void printPage() {
-	    doJob(new Runnable() {           
-            @Override
-            public void run() {
-        	    if (mPrinterInfo == null || !mPrinterInfo.isPageModeSupported()) {
-        	        dialog(R.drawable.page, 
-        	                getString(R.string.title_warning), 
-        	                getString(R.string.msg_unsupport_page_mode));
-        	        return;
-        	    }
-        	            
-                try {
-                    if (DEBUG) Log.d(LOG_TAG, "Print Page");
-                    mPrinter.reset();            
-                    mPrinter.selectPageMode();   
-                    
-                    mPrinter.setPageRegion(0, 0, 160, 320, Printer.PAGE_LEFT);            
-                    mPrinter.setPageXY(0, 4);            
-                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH I{br}");
-                    mPrinter.drawPageRectangle(0, 0, 160, 32, Printer.FILL_INVERTED);            
-                    mPrinter.setPageXY(0, 34);
-                    mPrinter.printTaggedText("{reset}Text printed from left to right" +
-                            ", feed to bottom. Starting point in left top corner of the page.{br}");
-                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
-                    
-                    mPrinter.setPageRegion(160, 0, 160, 320, Printer.PAGE_TOP);            
-                    mPrinter.setPageXY(0, 4);            
-                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH II{br}");
-                    mPrinter.drawPageRectangle(160 - 32, 0, 32, 320, Printer.FILL_INVERTED);            
-                    mPrinter.setPageXY(0, 34);
-                    mPrinter.printTaggedText("{reset}Text printed from top to bottom" +
-                            ", feed to left. Starting point in right top corner of the page.{br}");
-                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
-                    
-                    mPrinter.setPageRegion(160, 320, 160, 320, Printer.PAGE_RIGHT);            
-                    mPrinter.setPageXY(0, 4);            
-                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH III{br}");
-                    mPrinter.drawPageRectangle(0, 320 - 32, 160, 32, Printer.FILL_INVERTED);            
-                    mPrinter.setPageXY(0, 34);
-                    mPrinter.printTaggedText("{reset}Text printed from right to left" +
-                            ", feed to top. Starting point in right bottom corner of the page.{br}");
-                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
-                    
-                    mPrinter.setPageRegion(0, 320, 160, 320, Printer.PAGE_BOTTOM);            
-                    mPrinter.setPageXY(0, 4);            
-                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH IV{br}");
-                    mPrinter.drawPageRectangle(0, 0, 32, 320, Printer.FILL_INVERTED);            
-                    mPrinter.setPageXY(0, 34);
-                    mPrinter.printTaggedText("{reset}Text printed from bottom to top" +
-                            ", feed to right. Starting point in left bottom corner of the page.{br}");
-                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
-                    
-                    mPrinter.printPage();
-                    mPrinter.selectStandardMode();
-                    mPrinter.feedPaper(110);          
-                } catch (IOException e) {
-                    error(getString(R.string.msg_failed_to_print_page) + ". " + e.getMessage(), mRestart);            
-                }
-            }
-	    }, R.string.msg_printing_page);
-    }
-	
-	private void printBarcode() {
-	    doJob(new Runnable() {           
-            @Override
-            public void run() {
-        		try {    		
-        		    if (DEBUG) Log.d(LOG_TAG, "Print Barcode");
-        			mPrinter.reset();
-        						
-        			mPrinter.setBarcode(Printer.ALIGN_CENTER, false, 2, Printer.HRI_BELOW, 100);
-        			mPrinter.printBarcode(Printer.BARCODE_EAN13, "123456789012");
-        			mPrinter.feedPaper(38);
-        			
-        			mPrinter.setBarcode(Printer.ALIGN_CENTER, false, 2, Printer.HRI_BOTH, 100);
-        			mPrinter.printBarcode(Printer.BARCODE_CODE128, "ABCDEF123456");
-        			mPrinter.feedPaper(38);
-        						
-        			mPrinter.setBarcode(Printer.ALIGN_CENTER, false, 2, Printer.HRI_NONE, 100);
-        			mPrinter.printBarcode(Printer.BARCODE_PDF417, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        			mPrinter.feedPaper(38);
-        			
-        			mPrinter.setBarcode(Printer.ALIGN_CENTER, false, 2, Printer.HRI_NONE, 100);
-        			mPrinter.printQRCode(4, 3, "http://www.datecs.bg");        			
-        			mPrinter.feedPaper(38);
-        			
-        			mPrinter.feedPaper(110);
-            	} catch (IOException e) {
-            	    error(getString(R.string.msg_failed_to_print_barcode) + ". " + e.getMessage(), mRestart);    	    
-            	}
-            }
-	    }, R.string.msg_printing_barcode);
-	}
-
-	private void readMagstripe() {
-	    doJob(new Runnable() {           
-            @Override
-            public void run() {
-        		String[] tracks = null;
-        		FinancialCard card = null;		
-        		
-            	try {
-            	    if (DEBUG) Log.d(LOG_TAG, "Read Magstripe");
-            	    if (mPrinterInfo != null && mPrinterInfo.getName().startsWith("CMP-10")) {
-            	        // The printer CMP-10 can read only two tracks at once.
-            	        tracks = mPrinter.readCard(true, true, false, 15000);
-            	    } else {
-            	        tracks = mPrinter.readCard(true, true, true, 15000);
-            	    }
-            	} catch (IOException e) { 
-            		error(getString(R.string.msg_failed_to_read_card) + ". " + e.getMessage(), mRestart);
-            	}    	
-            	
-            	if (tracks != null) {
-            		StringBuffer msg = new StringBuffer();
-            		 
-        	    	if (tracks[0] == null && tracks[1] == null && tracks[2] == null) {
-        	    		msg.append(getString(R.string.no_card_read));
-        	    	} else {
-        	    		if (tracks[0] != null) {
-        	    			card = new FinancialCard(tracks[0]);
-        	    		} else if (tracks[1] != null) {
-        	    			card = new FinancialCard(tracks[1]);
-        	    		}
-        	    		
-        	    		if (card != null) {
-        	    			msg.append(getString(R.string.card_no) + ": " + card.getNumber());
-        	    			msg.append("\n");
-        	    			msg.append(getString(R.string.holder) + ": " + card.getName());
-        	    			msg.append("\n");
-        	    			msg.append(getString(R.string.exp_date) + ": " + String.format("%02d/%02d", 
-        	    					card.getExpiryMonth(), card.getExpiryYear()));
-        	    			msg.append("\n");	    			
-        	    		}
-        	    		
-        	    		if (tracks[0] != null) {
-        	    			msg.append("\n");
-        	    			msg.append(tracks[0]);
-        	    			
-        	    		}
-        	    		if (tracks[1] != null) {
-        	    			msg.append("\n");
-        	    			msg.append(tracks[1]);	    			
-        	    		}	    		
-        	    		if (tracks[2] != null) {
-        	    			msg.append("\n");
-        	    			msg.append(tracks[2]);
-        	    		}	    		
-        	    	}
-        	    	
-        	    	dialog(R.drawable.card,        	    	        
-        	    	        getString(R.string.card_info), 
-        	    	        msg.toString());
-            	}
-            }
-	    }, R.string.msg_reading_magstripe);
-	}	 
-	
-	private void readBarcode(final int timeout) {
-	    doJob(new Runnable() {           
-            @Override
-            public void run() {
-        		String barcode = null;
-        		
-            	try {
-            	    if (DEBUG) Log.d(LOG_TAG, "Read Barcode");
-            		barcode = mPrinter.readBarcode(timeout);
-            	} catch (IOException e) {     		
-            		error(getString(R.string.msg_failed_to_read_barcode) + ". " + e.getMessage(), mRestart);
-            	}    	
-            	
-            	if (barcode != null) {    		
-        	    	dialog(R.drawable.readbarcode, getString(R.string.barcode), barcode); 
-            	}
-            }
-	    }, R.string.msg_reading_barcode);
-	}       	
+    
+//    private void printSelfTest() {        
+//        doJob(new Runnable() {           
+//            @Override
+//            public void run() {
+//                try {           
+//                    if (DEBUG) Log.d(LOG_TAG, "Print Self Test");
+//                    mPrinter.printSelfTest();                       
+//                } catch (IOException e) {
+//                    error(getString(R.string.msg_failed_to_print_self_test) + ". " + e.getMessage(), mRestart);
+//                }
+//            }
+//        }, R.string.msg_printing_self_test);		
+//	}
+//	
+//	private void printText() {
+//	    doJob(new Runnable() {           
+//            @Override
+//            public void run() {
+//        		StringBuffer sb = new StringBuffer();
+//        		sb.append("{reset}{center}{w}{h}RECEIPT");
+//                sb.append("{br}");
+//                sb.append("{br}");
+//                sb.append("{reset}1. {b}First item{br}");
+//                sb.append("{reset}{right}{h}$0.50 A{br}");
+//                sb.append("{reset}2. {u}Second item{br}");
+//                sb.append("{reset}{right}{h}$1.00 B{br}");
+//                sb.append("{reset}3. {i}Third item{br}");
+//                sb.append("{reset}{right}{h}$1.50 C{br}");
+//                sb.append("{br}");
+//                sb.append("{reset}{right}{w}{h}TOTAL: {/w}$3.00  {br}");            
+//                sb.append("{br}");
+//                sb.append("{reset}{center}{s}Thank You!{br}");
+//                                    
+//            	try {   
+//            	    if (DEBUG) Log.d(LOG_TAG, "Print Text");
+//            		mPrinter.reset();  
+//            		mPrinter.printTaggedText(sb.toString());    		
+//            		mPrinter.feedPaper(110);            		            		
+//            	} catch (IOException e) {
+//            	    error(getString(R.string.msg_failed_to_print_text) + ". " + e.getMessage(), mRestart);    		
+//            	}
+//            }
+//	    }, R.string.msg_printing_text);
+//	}
+//	
+//	private void printImage() {
+//	    doJob(new Runnable() {           
+//            @Override
+//            public void run() {
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inScaled = false;                
+//        		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sample);        		
+//        		final int width = bitmap.getWidth();
+//        		final int height = bitmap.getHeight();
+//        		final int[] argb = new int[width * height];		
+//        		bitmap.getPixels(argb, 0, width, 0, 0, width, height);	
+//        		bitmap.recycle();
+//        				
+//        		try {
+//        		    if (DEBUG) Log.d(LOG_TAG, "Print Image");
+//        		    mPrinter.reset();		     
+//            		mPrinter.printImage(argb, width, height, Printer.ALIGN_CENTER, true);
+//            		mPrinter.feedPaper(110);		    
+//                } catch (IOException e) {
+//                    error(getString(R.string.msg_failed_to_print_image) + ". " + e.getMessage(), mRestart);
+//                }
+//            }
+//	    }, R.string.msg_printing_image);
+//	}
+//	
+//	private void printPage() {
+//	    doJob(new Runnable() {           
+//            @Override
+//            public void run() {
+//        	    if (mPrinterInfo == null || !mPrinterInfo.isPageModeSupported()) {
+//        	        dialog(R.drawable.page, 
+//        	                getString(R.string.title_warning), 
+//        	                getString(R.string.msg_unsupport_page_mode));
+//        	        return;
+//        	    }
+//        	            
+//                try {
+//                    if (DEBUG) Log.d(LOG_TAG, "Print Page");
+//                    mPrinter.reset();            
+//                    mPrinter.selectPageMode();   
+//                    
+//                    mPrinter.setPageRegion(0, 0, 160, 320, Printer.PAGE_LEFT);            
+//                    mPrinter.setPageXY(0, 4);            
+//                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH I{br}");
+//                    mPrinter.drawPageRectangle(0, 0, 160, 32, Printer.FILL_INVERTED);            
+//                    mPrinter.setPageXY(0, 34);
+//                    mPrinter.printTaggedText("{reset}Text printed from left to right" +
+//                            ", feed to bottom. Starting point in left top corner of the page.{br}");
+//                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
+//                    
+//                    mPrinter.setPageRegion(160, 0, 160, 320, Printer.PAGE_TOP);            
+//                    mPrinter.setPageXY(0, 4);            
+//                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH II{br}");
+//                    mPrinter.drawPageRectangle(160 - 32, 0, 32, 320, Printer.FILL_INVERTED);            
+//                    mPrinter.setPageXY(0, 34);
+//                    mPrinter.printTaggedText("{reset}Text printed from top to bottom" +
+//                            ", feed to left. Starting point in right top corner of the page.{br}");
+//                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
+//                    
+//                    mPrinter.setPageRegion(160, 320, 160, 320, Printer.PAGE_RIGHT);            
+//                    mPrinter.setPageXY(0, 4);            
+//                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH III{br}");
+//                    mPrinter.drawPageRectangle(0, 320 - 32, 160, 32, Printer.FILL_INVERTED);            
+//                    mPrinter.setPageXY(0, 34);
+//                    mPrinter.printTaggedText("{reset}Text printed from right to left" +
+//                            ", feed to top. Starting point in right bottom corner of the page.{br}");
+//                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
+//                    
+//                    mPrinter.setPageRegion(0, 320, 160, 320, Printer.PAGE_BOTTOM);            
+//                    mPrinter.setPageXY(0, 4);            
+//                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH IV{br}");
+//                    mPrinter.drawPageRectangle(0, 0, 32, 320, Printer.FILL_INVERTED);            
+//                    mPrinter.setPageXY(0, 34);
+//                    mPrinter.printTaggedText("{reset}Text printed from bottom to top" +
+//                            ", feed to right. Starting point in left bottom corner of the page.{br}");
+//                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
+//                    
+//                    mPrinter.printPage();
+//                    mPrinter.selectStandardMode();
+//                    mPrinter.feedPaper(110);          
+//                } catch (IOException e) {
+//                    error(getString(R.string.msg_failed_to_print_page) + ". " + e.getMessage(), mRestart);            
+//                }
+//            }
+//	    }, R.string.msg_printing_page);
+//    }
+//	
+//	private void printBarcode() {
+//	    doJob(new Runnable() {           
+//            @Override
+//            public void run() {
+//        		try {    		
+//        		    if (DEBUG) Log.d(LOG_TAG, "Print Barcode");
+//        			mPrinter.reset();
+//        						
+//        			mPrinter.setBarcode(Printer.ALIGN_CENTER, false, 2, Printer.HRI_BELOW, 100);
+//        			mPrinter.printBarcode(Printer.BARCODE_EAN13, "123456789012");
+//        			mPrinter.feedPaper(38);
+//        			
+//        			mPrinter.setBarcode(Printer.ALIGN_CENTER, false, 2, Printer.HRI_BOTH, 100);
+//        			mPrinter.printBarcode(Printer.BARCODE_CODE128, "ABCDEF123456");
+//        			mPrinter.feedPaper(38);
+//        						
+//        			mPrinter.setBarcode(Printer.ALIGN_CENTER, false, 2, Printer.HRI_NONE, 100);
+//        			mPrinter.printBarcode(Printer.BARCODE_PDF417, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+//        			mPrinter.feedPaper(38);
+//        			
+//        			mPrinter.setBarcode(Printer.ALIGN_CENTER, false, 2, Printer.HRI_NONE, 100);
+//        			mPrinter.printQRCode(4, 3, "http://www.datecs.bg");        			
+//        			mPrinter.feedPaper(38);
+//        			
+//        			mPrinter.feedPaper(110);
+//            	} catch (IOException e) {
+//            	    error(getString(R.string.msg_failed_to_print_barcode) + ". " + e.getMessage(), mRestart);    	    
+//            	}
+//            }
+//	    }, R.string.msg_printing_barcode);
+//	}
+//
+//	private void readMagstripe() {
+//	    doJob(new Runnable() {           
+//            @Override
+//            public void run() {
+//        		String[] tracks = null;
+//        		FinancialCard card = null;		
+//        		
+//            	try {
+//            	    if (DEBUG) Log.d(LOG_TAG, "Read Magstripe");
+//            	    if (mPrinterInfo != null && mPrinterInfo.getName().startsWith("CMP-10")) {
+//            	        // The printer CMP-10 can read only two tracks at once.
+//            	        tracks = mPrinter.readCard(true, true, false, 15000);
+//            	    } else {
+//            	        tracks = mPrinter.readCard(true, true, true, 15000);
+//            	    }
+//            	} catch (IOException e) { 
+//            		error(getString(R.string.msg_failed_to_read_card) + ". " + e.getMessage(), mRestart);
+//            	}    	
+//            	
+//            	if (tracks != null) {
+//            		StringBuffer msg = new StringBuffer();
+//            		 
+//        	    	if (tracks[0] == null && tracks[1] == null && tracks[2] == null) {
+//        	    		msg.append(getString(R.string.no_card_read));
+//        	    	} else {
+//        	    		if (tracks[0] != null) {
+//        	    			card = new FinancialCard(tracks[0]);
+//        	    		} else if (tracks[1] != null) {
+//        	    			card = new FinancialCard(tracks[1]);
+//        	    		}
+//        	    		
+//        	    		if (card != null) {
+//        	    			msg.append(getString(R.string.card_no) + ": " + card.getNumber());
+//        	    			msg.append("\n");
+//        	    			msg.append(getString(R.string.holder) + ": " + card.getName());
+//        	    			msg.append("\n");
+//        	    			msg.append(getString(R.string.exp_date) + ": " + String.format("%02d/%02d", 
+//        	    					card.getExpiryMonth(), card.getExpiryYear()));
+//        	    			msg.append("\n");	    			
+//        	    		}
+//        	    		
+//        	    		if (tracks[0] != null) {
+//        	    			msg.append("\n");
+//        	    			msg.append(tracks[0]);
+//        	    			
+//        	    		}
+//        	    		if (tracks[1] != null) {
+//        	    			msg.append("\n");
+//        	    			msg.append(tracks[1]);	    			
+//        	    		}	    		
+//        	    		if (tracks[2] != null) {
+//        	    			msg.append("\n");
+//        	    			msg.append(tracks[2]);
+//        	    		}	    		
+//        	    	}
+//        	    	
+//        	    	dialog(R.drawable.card,        	    	        
+//        	    	        getString(R.string.card_info), 
+//        	    	        msg.toString());
+//            	}
+//            }
+//	    }, R.string.msg_reading_magstripe);
+//	}	 
+//	
+//	private void readBarcode(final int timeout) {
+//	    doJob(new Runnable() {           
+//            @Override
+//            public void run() {
+//        		String barcode = null;
+//        		
+//            	try {
+//            	    if (DEBUG) Log.d(LOG_TAG, "Read Barcode");
+//            		barcode = mPrinter.readBarcode(timeout);
+//            	} catch (IOException e) {     		
+//            		error(getString(R.string.msg_failed_to_read_barcode) + ". " + e.getMessage(), mRestart);
+//            	}    	
+//            	
+//            	if (barcode != null) {    		
+//        	    	dialog(R.drawable.readbarcode, getString(R.string.barcode), barcode); 
+//            	}
+//            }
+//	    }, R.string.msg_reading_barcode);
+//	}       	
 }
 

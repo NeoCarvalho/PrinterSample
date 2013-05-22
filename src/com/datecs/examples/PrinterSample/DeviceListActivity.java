@@ -200,17 +200,17 @@ public class DeviceListActivity extends Activity {
         // one for newly discovered devices
         mDevicesAdapter = new DeviceAdapter();        
 
-        // Initialize the button to perform connect
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        final EditText addrView = (EditText) findViewById(R.id.device_address);
-        addrView.setText(prefs.getString(PREF_DEVICE_ADDRESS, ""));
-        Button connButton = (Button) findViewById(R.id.connect);
-        connButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-            	String address  = addrView.getText().toString();
-            	finishActivityWithResult(address);
-            }
-        });
+//TODO:        // Initialize the button to perform connect
+//        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+//        final EditText addrView = (EditText) findViewById(R.id.device_address);
+//        addrView.setText(prefs.getString(PREF_DEVICE_ADDRESS, ""));
+//        Button connButton = (Button) findViewById(R.id.connect);
+//        connButton.setOnClickListener(new OnClickListener() {
+//            public void onClick(View v) {
+//            	String address  = addrView.getText().toString();
+//            	finishActivityWithResult(address);
+//            }
+//        });
         
         // Find and set up the ListView for paired devices
         ListView devicesView = (ListView) findViewById(R.id.devices_list);
@@ -255,8 +255,9 @@ public class DeviceListActivity extends Activity {
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor edit = prefs.edit();
-        final EditText addrView = (EditText) findViewById(R.id.device_address);
-        edit.putString(PREF_DEVICE_ADDRESS, addrView.getText().toString());
+//TODO:
+//        final EditText addrView = (EditText) findViewById(R.id.device_address);
+//        edit.putString(PREF_DEVICE_ADDRESS, addrView.getText().toString());
         edit.commit();
         
         // Make sure we're not doing discovery anymore

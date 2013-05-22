@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical" >
-
+    <!-- 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="@string/title_connect" />
     </LinearLayout>
-    
+    -->
     <TextView
         android:id="@+id/title_disabled"
         android:layout_width="fill_parent"
@@ -59,7 +59,6 @@
         android:background="#c0c0c0"
         android:gravity="center"
         android:padding="5dp" >
-
         <Button
             android:id="@+id/scan"
             android:layout_width="wrap_content"

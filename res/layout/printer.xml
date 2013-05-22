@@ -4,6 +4,7 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:orientation="vertical">
+	<!-- 
 	<LinearLayout
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
@@ -25,6 +26,7 @@
 			android:textSize="24sp" 
 			android:layout_marginLeft="10dp" android:text="@string/title_unknown_device"/>
 	</LinearLayout>
+	 -->
 	
 	<ScrollView
 		android:layout_width="fill_parent"
@@ -36,14 +38,6 @@
 			android:orientation="vertical"
 			android:gravity="center_horizontal"
 			android:padding="10dip">
-			<Button
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:textSize="24sp"
-				android:textStyle="bold"
-				android:id="@+id/print_text"
-				android:drawableLeft="@drawable/text"				
-				android:text="@string/title_print_text"/>
 			<!-- 
 			<Button
 				android:layout_width="fill_parent"
