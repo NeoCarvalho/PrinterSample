@@ -10,32 +10,22 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.UUID;
 
-import com.datecs.api.card.FinancialCard;
-import com.datecs.api.printer.Printer;
-import com.datecs.api.printer.PrinterInformation;
-import com.datecs.api.printer.ProtocolAdapter;
-import com.datecs.examples.PrinterSample.network.PrinterServer;
-import com.datecs.examples.PrinterSample.network.PrinterServerListener;
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.content.res.Resources.Theme;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.datecs.api.printer.Printer;
+import com.datecs.api.printer.PrinterInformation;
+import com.datecs.api.printer.ProtocolAdapter;
+import com.datecs.examples.PrinterSample.network.PrinterServer;
+import com.datecs.examples.PrinterSample.network.PrinterServerListener;
 
 public class PrinterActivity extends Activity {
     // Debug
@@ -52,47 +42,6 @@ public class PrinterActivity extends Activity {
 	private final Handler mHandler = new Handler();
 	
 	
-	// The listener for all printer events
-//	private final ProtocolAdapter.ChannelListener mChannelListener = new ProtocolAdapter.ChannelListener() {        
-//        @Override
-//        public void onReadEncryptedCard() {
-//            toast(getString(R.string.msg_read_encrypted_card));
-//        }
-//        
-//        @Override
-//        public void onReadCard() {
-//            readMagstripe();            
-//        }
-//        
-//        @Override
-//        public void onReadBarcode() {
-//            readBarcode(0);
-//        }
-//        
-//        @Override
-//        public void onPaperReady(boolean state) {
-//            if (state) {
-//                toast(getString(R.string.msg_paper_ready));
-//            } else {
-//                toast(getString(R.string.msg_no_paper));
-//            }
-//        }
-//        
-//        @Override
-//        public void onOverHeated(boolean state) {
-//            if (state) {
-//                toast(getString(R.string.msg_overheated));
-//            }
-//        }
-//               
-//        @Override
-//        public void onLowBattery(boolean state) {
-//            if (state) {
-//                toast(getString(R.string.msg_low_battery));
-//            }
-//        }
-//    }; 
-    
     // Member variables
 	private Printer mPrinter;
 	private PrinterInformation mPrinterInfo;
@@ -109,66 +58,6 @@ public class PrinterActivity extends Activity {
         
         mRestart = true;
         waitForConnection();
-        
-//        findViewById(R.id.print_self_test).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//			    printSelfTest(); 				
-//			}        	
-//        });
-//        
-//        findViewById(R.id.print_text).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				printText();               								
-//			}        	
-//        });
-//        
-//        findViewById(R.id.print_image).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//			    printImage();
-//			}        	
-//        });    
-//        
-//        findViewById(R.id.print_page).setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                printPage();
-//            }           
-//        });    
-//        
-//        findViewById(R.id.print_barcode).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//			    printBarcode();
-//			}        	
-//        });   
-//                        
-//        findViewById(R.id.read_card).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				readMagstripe();									
-//			}
-//        });
-//        
-//        findViewById(R.id.read_barcode).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//			    // Read barcode waiting 10 seconds
-//				readBarcode(10);									
-//			}        	
-//        });     
-//        
-//        findViewById(R.id.print_text).setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				printTextFile();               								
-//			}        	
-//        });
-//        
-//        mRestart = true;
-//        waitForConnection();
     }
 
     @Override
@@ -183,8 +72,9 @@ public class PrinterActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_GET_DEVICE) {
             if (resultCode == DeviceListActivity.RESULT_OK) {   
-            	String address = data.getStringExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+//            	String address = data.getStringExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
             	//address = "192.168.11.136:9100";
+            	String address = "00:01:90:E1:C2:61";
             	if (BluetoothAdapter.checkBluetoothAddress(address)) {
             		establishBluetoothConnection(address);
             	} else {
@@ -207,20 +97,20 @@ public class PrinterActivity extends Activity {
 //        });
 //    }
     
-    private void dialog(final int iconResId, final String title, final String msg) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(PrinterActivity.this);
-                builder.setIcon(iconResId);
-                builder.setTitle(title);
-                builder.setMessage(msg);
-                
-                AlertDialog dlg = builder.create();                
-                dlg.show();             
-            }           
-        });             
-    }
+//    private void dialog(final int iconResId, final String title, final String msg) {
+//        mHandler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(PrinterActivity.this);
+//                builder.setIcon(iconResId);
+//                builder.setTitle(title);
+//                builder.setMessage(msg);
+//                
+//                AlertDialog dlg = builder.create();                
+//                dlg.show();             
+//            }           
+//        });             
+//    }
     
     private void error(final String text, boolean restart) {        
         mHandler.post(new Runnable() {
