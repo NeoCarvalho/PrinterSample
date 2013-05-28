@@ -72,9 +72,8 @@ public class PrinterActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_GET_DEVICE) {
             if (resultCode == DeviceListActivity.RESULT_OK) {   
-//            	String address = data.getStringExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+            	String address = data.getStringExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
             	//address = "192.168.11.136:9100";
-            	String address = "00:01:90:E1:C2:61";
             	if (BluetoothAdapter.checkBluetoothAddress(address)) {
             		establishBluetoothConnection(address);
             	} else {
