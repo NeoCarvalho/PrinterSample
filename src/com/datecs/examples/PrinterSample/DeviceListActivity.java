@@ -255,7 +255,6 @@ public class DeviceListActivity extends Activity {
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor edit = prefs.edit();
-
 //        final EditText addrView = (EditText) findViewById(R.id.device_address);
 //        edit.putString(PREF_DEVICE_ADDRESS, addrView.getText().toString());
         edit.commit();
