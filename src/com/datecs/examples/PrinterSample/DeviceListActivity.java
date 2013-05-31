@@ -190,17 +190,17 @@ public class DeviceListActivity extends Activity {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);        
         setContentView(R.layout.device_list);
 
-        // Set result CANCELED in case the user backs out
+        // Resultado cancelada em caso definir o usuário desiste
         setResult(Activity.RESULT_CANCELED);
 
-        // Get the local Bluetooth adapter
+        // Obter o adaptador Bluetooth local
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         
-        // Initialize array adapters. One for already paired devices and
-        // one for newly discovered devices
+        //Inicializar adaptadores matriz. Um dos dispositivos já emparelhados e 
+        //outra para dispositivos recém-descobertos
         mDevicesAdapter = new DeviceAdapter();        
 
-//TODO:        // Initialize the button to perform connect
+          // Inicializar o botão para executar conectar
 //        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 //        final EditText addrView = (EditText) findViewById(R.id.device_address);
 //        addrView.setText(prefs.getString(PREF_DEVICE_ADDRESS, ""));
@@ -212,12 +212,12 @@ public class DeviceListActivity extends Activity {
 //            }
 //        });
         
-        // Find and set up the ListView for paired devices
+        // Encontra e configura o ListView para dispositivos emparelhados
         ListView devicesView = (ListView) findViewById(R.id.devices_list);
         devicesView.setAdapter(mDevicesAdapter);
         devicesView.setOnItemClickListener(mDeviceClickListener);
 
-        // Initialize the button to perform device discovery
+        // Inicializando o botão de pesquisa dispositivo
         Button scanButton = (Button) findViewById(R.id.scan);
         scanButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -225,16 +225,16 @@ public class DeviceListActivity extends Activity {
             }
         });
         
-        // Register for broadcasts when a device is discovered
+        // Registre-se para as transmissões quando um dispositivo é descoberto
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         this.registerReceiver(mReceiver, filter);
 
-        // Register for broadcasts when discovery has finished
+        // Registre-se para as transmissões quando a descoberta foi concluída
         filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         this.registerReceiver(mReceiver, filter);     
 
         if (mBtAdapter != null && mBtAdapter.isEnabled()) {            
-            // Get a set of currently paired devices
+            // Obter um conjunto de dispositivos actualmente emparelhados
             Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
     
             // If there are paired devices, add each one to the ArrayAdapter
@@ -255,7 +255,7 @@ public class DeviceListActivity extends Activity {
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor edit = prefs.edit();
-//TODO:
+
 //        final EditText addrView = (EditText) findViewById(R.id.device_address);
 //        edit.putString(PREF_DEVICE_ADDRESS, addrView.getText().toString());
         edit.commit();

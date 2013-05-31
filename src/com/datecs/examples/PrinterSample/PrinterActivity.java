@@ -185,7 +185,6 @@ public class PrinterActivity extends Activity {
         
         mPrinterInfo = mPrinter.getInformation();
         
-//TODO:        
 //        mHandler.post(new Runnable() {          
 //            @Override
 //            public void run() {
@@ -253,7 +252,8 @@ public class PrinterActivity extends Activity {
                 
                 try {
                     initPrinter(in, out);
-//TODO: Inserido para Imprimir
+                    
+                    //Inserido para Imprimir
                     printTextFile();
                 } catch (IOException e) {
                     error(getString(R.string.msg_failed_to_init) + ". " +  e.getMessage(), mRestart);
@@ -366,7 +366,7 @@ public class PrinterActivity extends Activity {
         closePrinterServer();
     }
 
-//TODO: Metodo de Impressão do Arquivo
+    //Metodo de Impressão do Arquivo
     private void printTextFile() {
 	    doJob(new Runnable() {           
             @Override
