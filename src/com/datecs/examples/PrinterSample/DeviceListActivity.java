@@ -42,6 +42,8 @@ public class DeviceListActivity extends Activity {
     // Address preference name
     public static String PREF_DEVICE_ADDRESS = "device_address";
     
+    public static String ADDRESS_PRINTER_DEFAULT = "00:01:90:E1:C2:61";
+    
     // Class that explain bluetooth device node
     private class DeviceNode {   
         private String mName;
@@ -149,6 +151,18 @@ public class DeviceListActivity extends Activity {
             }                      
         }
     };
+    
+    public void iniEventClick(int location, long id) {
+        // Cancel discovery because it's costly and we're about to connect
+        mBtAdapter.cancelDiscovery();
+
+        DeviceNode node = (DeviceNode)mDevicesAdapter.getItem(location);
+        String address = node.getAddress();
+        
+        if (BluetoothAdapter.checkBluetoothAddress(address)) {
+        	finishActivityWithResult(address);
+        }                      
+    }
 
     // The BroadcastReceiver that listens for discovered devices and
     // changes the title when discovery is finished
@@ -240,7 +254,13 @@ public class DeviceListActivity extends Activity {
             // If there are paired devices, add each one to the ArrayAdapter
             if (pairedDevices.size() > 0) {
                 for (BluetoothDevice device : pairedDevices) {
-                    mDevicesAdapter.add(device.getName(), device.getAddress(), R.drawable.bluetooth_paired);
+                	mDevicesAdapter.add(device.getName(), device.getAddress(), R.drawable.bluetooth_paired);
+                	
+                	//Inserido para efetuar a impressão diretamente caso já esteja pareado
+                	if(ADDRESS_PRINTER_DEFAULT.equals(device.getAddress())){
+                		iniEventClick(0, 0);
+                		return;
+                    }
                 }
             }           
             findViewById(R.id.title_disabled).setVisibility(View.GONE);
