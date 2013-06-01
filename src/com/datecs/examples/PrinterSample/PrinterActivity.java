@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Window;
 
 import com.datecs.api.printer.Printer;
 import com.datecs.api.printer.PrinterInformation;
