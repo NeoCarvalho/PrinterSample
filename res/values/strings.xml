@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_select_device">Selecione um dispositivo para conectar-se</string>
-    <string name="title_scanning">Pesquisa Dispositivos&#8230;</string>
+    <string name="title_scanning">Pesquisando Dispositivos&#8230;</string>
     <string name="title_bluetooth_disabled">Bluetooth está desativado</string>
     <string name="title_unknown_device">[Dispositivo Deconhecido]</string>               
     <string name="title_print_self_test">Imprimir auto-teste</string>

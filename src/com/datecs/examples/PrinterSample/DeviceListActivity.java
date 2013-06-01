@@ -262,7 +262,9 @@ public class DeviceListActivity extends Activity {
                 		return;
                     }
                 }
-            }           
+            } else {
+            	doDiscovery();
+            }
             findViewById(R.id.title_disabled).setVisibility(View.GONE);
         } else {
             findViewById(R.id.scanLayout).setVisibility(View.GONE);
