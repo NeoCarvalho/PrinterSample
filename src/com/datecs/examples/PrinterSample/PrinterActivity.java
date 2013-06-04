@@ -2,6 +2,7 @@ package com.datecs.examples.PrinterSample;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +21,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 
 import com.datecs.api.printer.Printer;
 import com.datecs.api.printer.PrinterInformation;
@@ -388,13 +390,34 @@ public class PrinterActivity extends Activity {
             		mPrinter.printTaggedText(sb.toString());    		
             		mPrinter.feedPaper(50);
             		
+            		gravarSatus("sucesso");
+
             		onDestroy();
             	} catch (IOException e) {
+            		gravarSatus("erro");
             	    error(getString(R.string.msg_failed_to_print_text) + ". " + e.getMessage(), mRestart);    		
 				}
             }
 	    }, R.string.msg_printing_text);
 	    
+	}
+    
+    /**
+     * Grava o status da Impressão
+     */
+    public void gravarSatus(String msgStatus) {
+		
+		try {
+			String nomeArquivo = "status.txt";
+			File arq = new File(Environment.getExternalStorageDirectory() + "/external_sd/siv-ngmobile/txt/", nomeArquivo);
+			byte[] dados = msgStatus.getBytes();
+			FileOutputStream fos = new FileOutputStream(arq);
+			fos.write(dados);
+			fos.flush();
+			fos.close();
+		} catch (Exception e) {
+			error("Erro : " + e.getMessage(), mRestart);
+		}
 	}
     
 //    private void printSelfTest() {        
