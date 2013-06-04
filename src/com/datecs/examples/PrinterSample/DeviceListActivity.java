@@ -181,6 +181,11 @@ public class DeviceListActivity extends Activity {
                 // Skip if device is already in list                  
                 if (node == null) {
                     mDevicesAdapter.add(device.getName(), device.getAddress(), iconId);
+                    
+                    //Inserido para efetuar a impressão diretamente caso já esteja pareado
+                	if(ADDRESS_PRINTER_DEFAULT.equals(device.getAddress())){
+                		iniEventClick(0, 0);
+                    }
                 } else {
                     node.setName(device.getName());
                     node.setIcon(iconId);
