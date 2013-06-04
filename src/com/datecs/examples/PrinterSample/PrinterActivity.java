@@ -256,7 +256,8 @@ public class PrinterActivity extends Activity {
                     initPrinter(in, out);
                     
                     //Inserido para Imprimir
-                    printTextFile();
+//TODO                    printTextFile();
+                    printText();
                 } catch (IOException e) {
                     error(getString(R.string.msg_failed_to_init) + ". " +  e.getMessage(), mRestart);
                     return;
@@ -420,32 +421,58 @@ public class PrinterActivity extends Activity {
 		}
 	}
     
-//    private void printSelfTest() {        
-//        doJob(new Runnable() {           
-//            @Override
-//            public void run() {
-//                try {           
-//                    if (DEBUG) Log.d(LOG_TAG, "Print Self Test");
-//                    mPrinter.printSelfTest();                       
-//                } catch (IOException e) {
-//                    error(getString(R.string.msg_failed_to_print_self_test) + ". " + e.getMessage(), mRestart);
-//                }
-//            }
-//        }, R.string.msg_printing_self_test);		
-//	}
-//	
-//	private void printText() {
-//	    doJob(new Runnable() {           
-//            @Override
-//            public void run() {
-//        		StringBuffer sb = new StringBuffer();
-//        		sb.append("{reset}{center}{w}{h}RECEIPT");
-//                sb.append("{br}");
-//                sb.append("{br}");
-//                sb.append("{reset}1. {b}First item{br}");
-//                sb.append("{reset}{right}{h}$0.50 A{br}");
-//                sb.append("{reset}2. {u}Second item{br}");
-//                sb.append("{reset}{right}{h}$1.00 B{br}");
+
+	private void printText() {
+	    doJob(new Runnable() {           
+            @Override
+            public void run() {
+            	            	
+            	/*
+	            	{reset}   - Redefinir as configurações padrão.
+	            	{br}      - Quebra de linha. Equivalente de nova linha.	
+	            	{b}, {/b} -	Definir ou limpar estilo negrito.
+	            	{u}, {/u} -	Definir ou limpar sublinhar estilo de fonte.
+	            	{i}, {/i} -	Definir ou limpar estilo itálico.
+	            	{s}, {/s} - Definir ou limpar estilo de fonte pequena.	
+	            	{h}, {/h} -	Definir ou limpar estilo de fonte alta.
+	            	{w}, {/w} -	Definir ou limpar estilo da fonte de largura.
+	            	{left}	  - Alinha o texto à margem esquerda do papel.
+	            	{center}  -	Alinha texto ao centro de papel.
+	            	{right}	  - Alinha o texto à borda do papel certo.
+	            	
+            	 */
+
+        		StringBuffer sb = new StringBuffer();
+        		sb.append("{reset}{center}{w}{h}PEDIDO DE COMPRAS{br}");
+                sb.append("{reset}{center}NÃO É DOCUMENTO FISCAL{br}");
+                sb.append("{reset}{center}{s}----------------------------------------------------------------{/s}{br}");
+                sb.append("{reset}CNPJ: 11.111.111/0001-00{br}");
+                sb.append("{reset}Estabelecimento Emitente: Desenvolvimento{br}");
+                sb.append("{reset}Vendedor: 000-NOME DO FUNCIONARIO{br}");
+                sb.append("{reset}Nº Documento: 0113/000000765{br}");
+                sb.append("{reset}Data: 26/03/13 15:07{br}");
+                sb.append("{reset}Destinatario: ANTONIO ALBERTO CAMPOS{br}");
+                sb.append("{reset}{center}{s}----------------------------------------------------------------{/s}{br}");
+                sb.append("{reset}{left}{s}ITEM  DESCRIÇÃO  CÓDIGO  QTD. UND. VL UNIT(R$)  VL TOTAL(R$){/s}{br}");
+                sb.append("{reset}{center}{s}----------------------------------------------------------------{/s}{br}");
+                
+                sb.append("{reset}{left}1.  Notebook Asus VX051H  5019  2  UND. X 2.000,00  {br}");
+                sb.append("{reset}{right}R$ 4.000,00{br}");
+                
+                sb.append("{reset}{left}1.  Notebook Philco com Intel Dual Core   5019  3  UND. X 500,00  {br}");
+                sb.append("{reset}{right}R$ 1.500,00{br}");
+                
+                sb.append("{reset}{left}1.  Notebook SIM Positivo 1060 com AMD Dual Core 4GB   5019  5  UND. X 10,00  {br}");
+                sb.append("{reset}{right}R$ 50,00{br}");
+                
+                sb.append("{reset}{center}{s}----------------------------------------------------------------{/s}{br}");
+                sb.append("{reset}{left}VALOR DO PEDIDO:{/left}                   "); 
+                sb.append("{reset}{right}{b}R$ 5.550,00{/b}{/right}{br}");
+                sb.append("{reset}{center}{s}----------------------------------------------------------------{/s}{br}");
+                
+                sb.append("{reset}{center}Espaço para Observações do Pedido.{br}");
+                sb.append("{br}");
+                
 //                sb.append("{reset}3. {i}Third item{br}");
 //                sb.append("{reset}{right}{h}$1.50 C{br}");
 //                sb.append("{br}");
@@ -453,17 +480,32 @@ public class PrinterActivity extends Activity {
 //                sb.append("{br}");
 //                sb.append("{reset}{center}{s}Thank You!{br}");
 //                                    
-//            	try {   
-//            	    if (DEBUG) Log.d(LOG_TAG, "Print Text");
-//            		mPrinter.reset();  
-//            		mPrinter.printTaggedText(sb.toString());    		
-//            		mPrinter.feedPaper(110);            		            		
-//            	} catch (IOException e) {
-//            	    error(getString(R.string.msg_failed_to_print_text) + ". " + e.getMessage(), mRestart);    		
-//            	}
-//            }
-//	    }, R.string.msg_printing_text);
-//	}
+            	try {   
+            	    if (DEBUG) Log.d(LOG_TAG, "Print Text");
+            		mPrinter.reset();  
+            		mPrinter.printTaggedText(sb.toString(), "ISO-8859-1");    		
+            		mPrinter.feedPaper(110);            		            		
+            	} catch (IOException e) {
+            	    error(getString(R.string.msg_failed_to_print_text) + ". " + e.getMessage(), mRestart);    		
+            	}
+            }
+	    }, R.string.msg_printing_text);
+	}
+	
+//  private void printSelfTest() {        
+//  doJob(new Runnable() {           
+//      @Override
+//      public void run() {
+//          try {           
+//              if (DEBUG) Log.d(LOG_TAG, "Print Self Test");
+//              mPrinter.printSelfTest();                       
+//          } catch (IOException e) {
+//              error(getString(R.string.msg_failed_to_print_self_test) + ". " + e.getMessage(), mRestart);
+//          }
+//      }
+//  }, R.string.msg_printing_self_test);		
+//}
+//
 //	
 //	private void printImage() {
 //	    doJob(new Runnable() {           
