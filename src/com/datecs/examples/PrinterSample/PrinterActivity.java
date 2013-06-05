@@ -256,8 +256,9 @@ public class PrinterActivity extends Activity {
                     initPrinter(in, out);
                     
                     //Inserido para Imprimir
-//TODO                    printTextFile();
-                    printText();
+//TODO                    
+                    printTextFile();
+//                    printText();
                 } catch (IOException e) {
                     error(getString(R.string.msg_failed_to_init) + ". " +  e.getMessage(), mRestart);
                     return;
@@ -379,8 +380,8 @@ public class PrinterActivity extends Activity {
             	    
             	    StringBuffer sb = new StringBuffer();
             		String lstrlinha;
-            		String lstrNomeArq = "temp.txt";
-            		File arq = new File(Environment.getExternalStorageDirectory() + "/external_sd/siv-ngmobile/txt/", lstrNomeArq);
+            		String lstrNomeArq = "arqimpressao.txt";
+            		File arq = new File(Environment.getExternalStorageDirectory() + "/external_sd/siv-ngmobile/", lstrNomeArq);
         			BufferedReader br = new BufferedReader(new FileReader(arq));
 
         			while ((lstrlinha = br.readLine()) != null) {
@@ -388,7 +389,7 @@ public class PrinterActivity extends Activity {
         			}
             	    
             		mPrinter.reset();  
-            		mPrinter.printTaggedText(sb.toString());    		
+            		mPrinter.printTaggedText(sb.toString(), "ISO-8859-1");   		
             		mPrinter.feedPaper(50);
             		
             		gravarSatus("sucesso");
