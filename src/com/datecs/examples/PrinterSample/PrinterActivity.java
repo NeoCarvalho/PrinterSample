@@ -258,7 +258,6 @@ public class PrinterActivity extends Activity {
                     //Inserido para Imprimir
 //TODO                    
                     printTextFile();
-//                    printText();
                 } catch (IOException e) {
                     error(getString(R.string.msg_failed_to_init) + ". " +  e.getMessage(), mRestart);
                     return;
@@ -387,8 +386,8 @@ public class PrinterActivity extends Activity {
         			while ((lstrlinha = br.readLine()) != null) {
         				sb.append("{reset}"+lstrlinha.toString()+"{br}");
         			}
-            	    
-            		mPrinter.reset();  
+
+        			mPrinter.reset();  
             		mPrinter.printTaggedText(sb.toString(), "ISO-8859-1");   		
             		mPrinter.feedPaper(50);
             		
@@ -477,14 +476,7 @@ public class PrinterActivity extends Activity {
                 
                 sb.append("{reset}{center}Espaço para Observações do Pedido.{br}");
                 sb.append("{br}");
-                
-//                sb.append("{reset}3. {i}Third item{br}");
-//                sb.append("{reset}{right}{h}$1.50 C{br}");
-//                sb.append("{br}");
-//                sb.append("{reset}{right}{w}{h}TOTAL: {/w}$3.00  {br}");            
-//                sb.append("{br}");
-//                sb.append("{reset}{center}{s}Thank You!{br}");
-//                                    
+                                    
             	try {   
             	    if (DEBUG) Log.d(LOG_TAG, "Print Text");
             		mPrinter.reset();  
@@ -558,8 +550,7 @@ public class PrinterActivity extends Activity {
 //                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH I{br}");
 //                    mPrinter.drawPageRectangle(0, 0, 160, 32, Printer.FILL_INVERTED);            
 //                    mPrinter.setPageXY(0, 34);
-//                    mPrinter.printTaggedText("{reset}Text printed from left to right" +
-//                            ", feed to bottom. Starting point in left top corner of the page.{br}");
+//                    mPrinter.printTaggedText("{reset}Text printed from left to right" + ", feed to bottom. Starting point in left top corner of the page.{br}");
 //                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
 //                    
 //                    mPrinter.setPageRegion(160, 0, 160, 320, Printer.PAGE_TOP);            
@@ -567,8 +558,7 @@ public class PrinterActivity extends Activity {
 //                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH II{br}");
 //                    mPrinter.drawPageRectangle(160 - 32, 0, 32, 320, Printer.FILL_INVERTED);            
 //                    mPrinter.setPageXY(0, 34);
-//                    mPrinter.printTaggedText("{reset}Text printed from top to bottom" +
-//                            ", feed to left. Starting point in right top corner of the page.{br}");
+//                    mPrinter.printTaggedText("{reset}Text printed from top to bottom" + ", feed to left. Starting point in right top corner of the page.{br}");
 //                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
 //                    
 //                    mPrinter.setPageRegion(160, 320, 160, 320, Printer.PAGE_RIGHT);            
@@ -576,8 +566,7 @@ public class PrinterActivity extends Activity {
 //                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH III{br}");
 //                    mPrinter.drawPageRectangle(0, 320 - 32, 160, 32, Printer.FILL_INVERTED);            
 //                    mPrinter.setPageXY(0, 34);
-//                    mPrinter.printTaggedText("{reset}Text printed from right to left" +
-//                            ", feed to top. Starting point in right bottom corner of the page.{br}");
+//                    mPrinter.printTaggedText("{reset}Text printed from right to left" + ", feed to top. Starting point in right bottom corner of the page.{br}");
 //                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
 //                    
 //                    mPrinter.setPageRegion(0, 320, 160, 320, Printer.PAGE_BOTTOM);            
@@ -585,8 +574,7 @@ public class PrinterActivity extends Activity {
 //                    mPrinter.printTaggedText("{reset}{center}{b}PARAGRAPH IV{br}");
 //                    mPrinter.drawPageRectangle(0, 0, 32, 320, Printer.FILL_INVERTED);            
 //                    mPrinter.setPageXY(0, 34);
-//                    mPrinter.printTaggedText("{reset}Text printed from bottom to top" +
-//                            ", feed to right. Starting point in left bottom corner of the page.{br}");
+//                    mPrinter.printTaggedText("{reset}Text printed from bottom to top" + ", feed to right. Starting point in left bottom corner of the page.{br}");
 //                    mPrinter.drawPageFrame(0, 0, 160, 320, Printer.FILL_BLACK, 1);
 //                    
 //                    mPrinter.printPage();
