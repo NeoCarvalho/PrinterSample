@@ -261,10 +261,10 @@ public class DeviceListActivity extends Activity {
                 	mDevicesAdapter.add(device.getName(), device.getAddress(), R.drawable.bluetooth_paired);
                 	
                 	//Inserido para efetuar a impressão diretamente caso já esteja pareado
-                	if(ADDRESS_PRINTER_DEFAULT.equals(device.getAddress())){
-                		iniEventClick(0, 0);
-                		return;
-                    }
+//                	if(ADDRESS_PRINTER_DEFAULT.equals(device.getAddress())){
+//                		iniEventClick(0, 0);
+//                		return;
+//                    }
                 }
             } else {
             	doDiscovery();
